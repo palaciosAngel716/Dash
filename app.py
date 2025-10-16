@@ -40,7 +40,7 @@ with tabs[0]:
     df_ipn = sheets[tab_names[0]]
 
     # Mostrar la tabla de datos principal en la parte superior
-    st.dataframe(df_ipn.reset_index(drop=True), use_container_width=True)
+    st.dataframe(df_ipn.reset_index(drop=True), use_container_width=True, hide_index=True)
     st.markdown("---")  # Separador visual
 
     # --- Definir las columnas para cada categoría ---
@@ -180,7 +180,7 @@ def render_filtered_tab(df, sheet_name):
             f"Mostrando **{len(df_final)}** de **{len(df)}** registros totales.")
         df_a_mostrar = df_final.drop(columns=[col_rama], errors='ignore')
         st.dataframe(df_a_mostrar.reset_index(
-            drop=True), use_container_width=True)
+            drop=True), use_container_width=True, hide_index=True)
 
         # --- GRÁFICA 1: DISTRIBUCIÓN DE EQUIPO ---
         st.markdown("---")
@@ -256,3 +256,4 @@ for i, tab in enumerate(tabs[1:]):  # Empezar desde la segunda pestaña
         sheet_name = tab_names[i+1]  # El índice correcto de la hoja
         df_active = sheets[sheet_name].copy()
         render_filtered_tab(df_active, sheet_name)
+

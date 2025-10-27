@@ -322,7 +322,7 @@ def render_filtered_tab(df, sheet_name):
         # --- CORRECCIÓN DE ERROR (LOCAL) ---
         df_usuarios_melted['Cantidad'] = pd.to_numeric(
             df_usuarios_melted['Cantidad'], errors='coerce').fillna(0)
-        
+
         # --- BLOQUE DE CÓDIGO ELIMINADO ---
         # Ya no pre-calculamos el orden aquí
         # df_usuarios_totals = ...
@@ -340,7 +340,8 @@ def render_filtered_tab(df, sheet_name):
             # Se eliminó el parámetro 'category_orders'
         )
         # --- CAMBIO AQUÍ: Añadimos el orden dinámico de Plotly ---
-        fig_barras_usuarios.update_xaxes(tickangle=45, categoryorder="total descending")
+        fig_barras_usuarios.update_xaxes(
+            tickangle=45, categoryorder="total descending")
         # --- FIN DEL CAMBIO ---
         st.plotly_chart(fig_barras_usuarios, use_container_width=True)
 
@@ -353,4 +354,3 @@ for i, tab in enumerate(tabs[1:]):  # Empezar desde la segunda pestaña
         sheet_name = tab_names[i+1]  # El índice correcto de la hoja
         df_active = sheets[sheet_name].copy()
         render_filtered_tab(df_active, sheet_name)
-

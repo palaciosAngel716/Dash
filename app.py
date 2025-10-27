@@ -256,9 +256,7 @@ def render_filtered_tab(df, sheet_name):
         )
         fig_pie_rama.update_traces(
             textposition='inside', textinfo='percent+value+label')
-        # --- CAMBIO AQUÍ ---
         st.plotly_chart(fig_pie_rama, use_container_width=True)
-        # --- FIN DEL CAMBIO ---
 
     st.markdown("---")
     st.subheader("Distribución de Tipos de Equipo por Unidad Académica")
@@ -284,10 +282,11 @@ def render_filtered_tab(df, sheet_name):
         df_equipo_melted['Cantidad'] = pd.to_numeric(
             df_equipo_melted['Cantidad'], errors='coerce').fillna(0)
 
-        df_equipo_totals = df_equipo_melted.groupby(col_unidad)[
-            'Cantidad'].sum()
-        sorted_unidades_equipo = df_equipo_totals.sort_values(
-            ascending=False).index.tolist()
+        # --- BLOQUE DE CÓDIGO ELIMINADO ---
+        # Ya no pre-calculamos el orden aquí
+        # df_equipo_totals = ...
+        # sorted_unidades_equipo = ...
+        # --- FIN DE BLOQUE ELIMINADO ---
 
         fig_equipo = px.bar(
             df_equipo_melted,
@@ -295,13 +294,13 @@ def render_filtered_tab(df, sheet_name):
             y="Cantidad",
             color="Tipo de Equipo",
             title="Composición del Equipo de Cómputo por Unidad Académica",
-            labels={col_unidad: "Unidad Académica", "Cantidad": "Unidades"},
-            category_orders={col_unidad: sorted_unidades_equipo}
+            labels={col_unidad: "Unidad Académica", "Cantidad": "Unidades"}
+            # Se eliminó el parámetro 'category_orders'
         )
-        fig_equipo.update_xaxes(tickangle=45)
-        # --- CAMBIO AQUÍ ---
-        st.plotly_chart(fig_equipo, use_container_width=True)
+        # --- CAMBIO AQUÍ: Añadimos el orden dinámico de Plotly ---
+        fig_equipo.update_xaxes(tickangle=45, categoryorder="total descending")
         # --- FIN DEL CAMBIO ---
+        st.plotly_chart(fig_equipo, use_container_width=True)
 
     st.markdown("---")
     st.subheader("Distribución de Usuarios por Unidad Académica")
@@ -323,11 +322,12 @@ def render_filtered_tab(df, sheet_name):
         # --- CORRECCIÓN DE ERROR (LOCAL) ---
         df_usuarios_melted['Cantidad'] = pd.to_numeric(
             df_usuarios_melted['Cantidad'], errors='coerce').fillna(0)
-
-        df_usuarios_totals = df_usuarios_melted.groupby(col_unidad)[
-            'Cantidad'].sum()
-        sorted_unidades_usuarios = df_usuarios_totals.sort_values(
-            ascending=False).index.tolist()
+        
+        # --- BLOQUE DE CÓDIGO ELIMINADO ---
+        # Ya no pre-calculamos el orden aquí
+        # df_usuarios_totals = ...
+        # sorted_unidades_usuarios = ...
+        # --- FIN DE BLOQUE ELIMINADO ---
 
         fig_barras_usuarios = px.bar(
             df_usuarios_melted,
@@ -336,13 +336,13 @@ def render_filtered_tab(df, sheet_name):
             color="Tipo de Usuario",
             title="Composición de Usuarios por Unidad Académica",
             labels={col_unidad: "Unidad Académica",
-                    "Cantidad": "Número de Usuarios"},
-            category_orders={col_unidad: sorted_unidades_usuarios}
+                    "Cantidad": "Número de Usuarios"}
+            # Se eliminó el parámetro 'category_orders'
         )
-        fig_barras_usuarios.update_xaxes(tickangle=45)
-        # --- CAMBIO AQUÍ ---
-        st.plotly_chart(fig_barras_usuarios, use_container_width=True)
+        # --- CAMBIO AQUÍ: Añadimos el orden dinámico de Plotly ---
+        fig_barras_usuarios.update_xaxes(tickangle=45, categoryorder="total descending")
         # --- FIN DEL CAMBIO ---
+        st.plotly_chart(fig_barras_usuarios, use_container_width=True)
 
 
 # ---------------------------
@@ -353,3 +353,4 @@ for i, tab in enumerate(tabs[1:]):  # Empezar desde la segunda pestaña
         sheet_name = tab_names[i+1]  # El índice correcto de la hoja
         df_active = sheets[sheet_name].copy()
         render_filtered_tab(df_active, sheet_name)
+

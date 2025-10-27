@@ -35,9 +35,6 @@ tabs = st.tabs(tab_names)
 # ---------------------------
 # PESTAÑA 1: Resumen General (con 2 tablas y 2 gráficas)
 # ---------------------------
-# ---------------------------
-# PESTAÑA 1: Resumen General (con 2 tablas y 2 gráficas)
-# ---------------------------
 with tabs[0]:
     st.subheader(f"Resumen General - {tab_names[0]}")
     # Usar .copy() para evitar modificar el original
@@ -131,11 +128,11 @@ with tabs[0]:
                 df_grafica_equipo, names=col_categoria, values=equipo_elegido,
                 title=f"Distribución de '{equipo_elegido}' por Nivel"
             )
-            # --- CAMBIO AQUÍ ---
             fig_equipo.update_traces(
                 textposition='inside', textinfo='percent+value+label')
+            # --- CAMBIO AQUÍ ---
+            st.plotly_chart(fig_equipo, use_container_width=True)
             # --- FIN DEL CAMBIO ---
-            st.plotly_chart(fig_equipo, width='stretch')
 
     with col_graf2:
         st.subheader("👤 Distribución de Usuarios")
@@ -149,11 +146,11 @@ with tabs[0]:
                 df_grafica_usuarios, names=col_categoria, values=usuario_elegido,
                 title=f"Distribución de '{usuario_elegido}' por Nivel"
             )
-            # --- CAMBIO AQUÍ ---
             fig_usuarios.update_traces(
                 textposition='inside', textinfo='percent+value+label')
+            # --- CAMBIO AQUÍ ---
+            st.plotly_chart(fig_usuarios, use_container_width=True)
             # --- FIN DEL CAMBIO ---
-            st.plotly_chart(fig_usuarios, width='stretch')
 
 
 # ---------------------------
@@ -257,11 +254,11 @@ def render_filtered_tab(df, sheet_name):
             values=col_computo,
             title=f"Distribución de '{col_computo}' por Rama"
         )
-        # --- CAMBIO AQUÍ ---
         fig_pie_rama.update_traces(
             textposition='inside', textinfo='percent+value+label')
+        # --- CAMBIO AQUÍ ---
+        st.plotly_chart(fig_pie_rama, use_container_width=True)
         # --- FIN DEL CAMBIO ---
-        st.plotly_chart(fig_pie_rama, width='stretch')
 
     st.markdown("---")
     st.subheader("Distribución de Tipos de Equipo por Unidad Académica")
@@ -302,7 +299,9 @@ def render_filtered_tab(df, sheet_name):
             category_orders={col_unidad: sorted_unidades_equipo}
         )
         fig_equipo.update_xaxes(tickangle=45)
-        st.plotly_chart(fig_equipo, width='stretch')
+        # --- CAMBIO AQUÍ ---
+        st.plotly_chart(fig_equipo, use_container_width=True)
+        # --- FIN DEL CAMBIO ---
 
     st.markdown("---")
     st.subheader("Distribución de Usuarios por Unidad Académica")
@@ -341,7 +340,9 @@ def render_filtered_tab(df, sheet_name):
             category_orders={col_unidad: sorted_unidades_usuarios}
         )
         fig_barras_usuarios.update_xaxes(tickangle=45)
-        st.plotly_chart(fig_barras_usuarios, width='stretch')
+        # --- CAMBIO AQUÍ ---
+        st.plotly_chart(fig_barras_usuarios, use_container_width=True)
+        # --- FIN DEL CAMBIO ---
 
 
 # ---------------------------
